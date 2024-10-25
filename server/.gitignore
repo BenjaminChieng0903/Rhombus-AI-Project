@@ -1,0 +1,12 @@
+#virtual env
+venv/
+
+#python cache
+__pycache__/
+
+#database config
+*.sqlite3
+
+#IDE config
+.vscode/
+.idea/
