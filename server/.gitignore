@@ -10,3 +10,4 @@ __pycache__/
 #IDE config
 .vscode/
 .idea/
+.DS_Store

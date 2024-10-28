@@ -1,0 +1,6 @@
+Name,Birthdate,Score,Grade,isGraduated,Rank,duration,cateory,complex,float
+Alice,1/01/1990,90,A,TRUE,1,5 days 00:00:00,1,1.0+1.0j,22.2
+Bob,10 days 13:00:00,75,B,1/01/1990,2,10 days 12:00:00,hello,1
+Charlie,2023.04.05,85,B,0,3,15 days 03:20:10,2,2.0+1.0j,33.3
+1,not_a_date,70,A,TRUE,4,10 days 13:00:00,2,1.0+1.0j,44.4
+Eve,5/05/1994,Not Available,A,FALSE,5,10 days,2,3.0+1.0j,FALSE
