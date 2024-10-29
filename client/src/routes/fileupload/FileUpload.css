@@ -1,0 +1,48 @@
+.container{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+}
+.file-upload{
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    border: 2px dashed #ccc;
+    padding: 20px;
+    border-radius: 8px;
+    text-align: center;
+    /* cursor: pointer; */
+    background-color: #f9f9f9;
+    align-items: center;
+}
+.drag-active{
+    background-color:grey
+}
+input{
+    display: none;
+}
+.choose-file-button{
+    width: 50%;
+    padding-left: 20px;
+    padding-right: 20px;
+    background-color: white;
+    border-radius: 5px;
+}
+
+.choose-file-button:hover{
+    cursor: pointer;
+}
+
+.choose-file-button:active{
+    opacity: 0.8;
+}
+
+.upload-button{
+    width: 50%;
+    padding: 20px;
+    border: 1px solid deepskyblue;
+    background-color: deepskyblue;
+    border-radius: 5px;
+}
