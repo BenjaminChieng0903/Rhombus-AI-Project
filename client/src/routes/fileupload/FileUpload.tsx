@@ -1,5 +1,6 @@
 import React, { useState, useRef } from "react";
 import './FileUpload.css'
+import TypeConvertApi from "src/apis/type-convert/TypeConvert";
 const FileUpload = ()=>{
     const [file, setFile] = useState<File | null>(null);
     const [dragActive, setDragActive] = useState(false);
@@ -72,7 +73,7 @@ const FileUpload = ()=>{
             <p>Or drag and drop a file here</p>
             {file && <p>Selected file: {file.name}</p>}
         </div>
-        <button className="upload-button">Upload & Convert</button>
+        <button className="upload-button" onClick={()=>TypeConvertApi(file)}>Upload & Convert</button>
     </div>
     );
 };
