@@ -2,15 +2,10 @@ import pandas as pd
 
 def infer_and_convert_data_types(df):
     for col in df.columns:
-        # Check if the column should be categorical
-        # Example threshold for categorization
-        if len(df[col].unique()) / len(df[col]) < 0.5:
-            df[col] = pd.Categorical(df[col])
-            continue
         #In the mixed data situation for bool, pd will predicate it as object.
         #So that we need to check if bool strings are in the column.
         #For columns that only have bool string, pd will predicate its type correctly.
-        bool_in_col = df[col].isin(['True','False','true','false'])
+        bool_in_col = df[col].isin(['True','False','true','false','TRUE','FALSE'])
         if bool_in_col.any():
             #If True amount > False amount in , we can assume it is a bool type
             #If True amount < False -> bool strings are minority in the column -> should not be bool type because of mixed data
@@ -22,6 +17,11 @@ def infer_and_convert_data_types(df):
                 df[col] = df[col].apply(convert_to_bool)
                 continue
 
+        # Check if the column should be categorical
+        # Example threshold for categorization
+        if len(df[col].unique()) / len(df[col]) < 0.5:
+            df[col] = pd.Categorical(df[col])
+            continue
 
         # Attempt to convert to numeric first
         df_converted_numeric = pd.to_numeric(df[col], errors='coerce')
@@ -37,12 +37,10 @@ def infer_and_convert_data_types(df):
             #if values exclusive of nan value are all int type, we predict its type as int
             #Otherwise float
             if  nan_count > 0 and df[col].dropna().apply(float.is_integer).all():
-                print('this is a int type')
                 df[col] = df[col].astype('Int64')
                 continue
             
             continue
-
 
         # Attempt to convert to datetime
         # For to_datetime function, it will convert all the values that are not can be converted to date to nat value
@@ -70,9 +68,8 @@ def infer_and_convert_data_types(df):
             #Other mixed data count
            mixed_data_count = len(df[col]) - complex_count
            if complex_count > mixed_data_count:
-            print('this is a complex type')
             df[col] = df[col].astype(complex)
-        
+
     return df
 
 def convert_to_bool(val):
@@ -83,13 +80,23 @@ def convert_to_bool(val):
         #it will automatically transfer number and other irrelvant string to bool
         return bool(val)
 #Test the function with your DataFrame
-if __name__ == "__main__":
-    df = pd.read_csv('./static/sample_data.csv')
+def read_file_and_convert(file):
+    
+    if file.name.endswith('.csv'):
+        df = pd.read_csv(file)
+    if file.name.endswith('.xlsx'):
+        df = pd.read_excel(file, dtype=str)
+    
     print("Data types before inference:")
     print(df.dtypes)
-    
-    df = infer_and_convert_data_types(df)
+    print(df['Birthdate'])
+    dtypes_dict_before = df.dtypes.apply(lambda x: str(x)).to_dict()
+    infer_and_convert_data_types(df)
 
     print("\nData types after inference:")
     print(df.dtypes)
-    # print(df['bool_column'])
+    dtypes_dict_after = df.dtypes.apply(lambda x: str(x)).to_dict()
+    return {
+        'dtypes-before':dtypes_dict_before,
+        'dtypes-after':dtypes_dict_after
+    }
