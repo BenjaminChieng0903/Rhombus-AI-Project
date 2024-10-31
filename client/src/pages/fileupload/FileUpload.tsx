@@ -59,6 +59,24 @@ const FileUpload = ()=>{
         setDataResult(response)    
     }
 
+    const typeTranslate = (type:string): string =>{
+        switch(type){
+            case 'object': return 'text'
+
+            case 'datetime64[ns]': return 'date'
+            case 'timedelta64[ns]': return 'time-span'
+
+            case 'int64': 
+            case 'Int64':
+            return 'integer'
+
+            case 'bool': return 'True_or_False'
+            case 'float64': return 'floating-point-number'
+            case 'complex128': return 'complex-number'
+
+            default: return type;
+        }
+    }
 
     return(
         <div className="container">
@@ -100,7 +118,9 @@ const FileUpload = ()=>{
         {dataResult && dataResult.map((item, index) => (
         <tr key={index}>
         {Object.keys(item).map((key) => {
+            const translated_type = typeTranslate(item[key])
           return(
+          <td key={key}>{translated_type}</td>
           )
         })}
       </tr>
