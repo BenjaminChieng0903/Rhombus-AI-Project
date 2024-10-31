@@ -2,6 +2,8 @@ import './ResultDisplayTable.css'
 import { ResultDisplayTableProps } from "src/type/interface/ResultDisplayTableProps"
 
 const ResultDisplayTable:React.FC<ResultDisplayTableProps> = ({dataResult})=>{
+
+    //type translation for users to understand
     const typeTranslate = (type:string): string =>{
         switch(type){
             case 'object': return 'text'
@@ -22,11 +24,9 @@ const ResultDisplayTable:React.FC<ResultDisplayTableProps> = ({dataResult})=>{
     }
 
     return(
-        <>
-        
+        <>    
         <table className="tb-style">
-        <thead>
-            
+        <thead>     
         <tr>
            {dataResult && Object.keys(dataResult[0]).map((item, index)=>( 
                 <th key={index}>{item}</th>      

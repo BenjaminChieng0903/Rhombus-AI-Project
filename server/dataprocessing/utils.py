@@ -46,7 +46,8 @@ def infer_and_convert_data_types(df):
         # For to_datetime function, it will convert all the values that are not can be converted to date to nat value
         # for mxied dataset, we can count the amount of nat value and compare to the rest
         # in this case, the amount of nat value is number of dirty data, while the rest is date data
-        df_converted_datetime = pd.to_datetime(df[col], errors='coerce')
+        # df_converted_datetime = pd.to_datetime(df[col], errors='coerce')
+        df_converted_datetime = df[col].apply(convert_to_datetime_include_excel)
         nat_count = df_converted_datetime.isna().sum()
         if len(df_converted_datetime)-nat_count > nat_count:
             df[col] = df_converted_datetime
@@ -79,25 +80,43 @@ def convert_to_bool(val):
     if isinstance(val, str):
         #it will automatically transfer number and other irrelvant string to bool
         return bool(val)
-#Test the function with your DataFrame
+def convert_to_datetime_include_excel(value):
+    try:
+        #for datetime in excel, read_excel func will automatically convert date to timestamp
+        #So this step is to check if some date data have been converted to timestamp
+        if value.isdigit():
+            return pd.to_datetime(int(value), origin='1899-12-30', unit='D')
+        return pd.to_datetime(value, errors='coerce')
+    except ValueError:
+        return pd.NaT
+
+#data processing api entry
 def read_file_and_convert(file):
     
+    #file type check
     if file.name.endswith('.csv'):
         df = pd.read_csv(file)
     if file.name.endswith('.xlsx'):
         df = pd.read_excel(file, dtype=str)
+        # print(df['Birthdate'])
+        # df['Birthdate'] = pd.to_datetime(df['Birthdate'], origin='1899-12-30', unit='D', errors='coerce')
+        # print(df['Birthdate'])
     
     print("Data types before inference:")
-    print(df.dtypes)
-    print(df['Birthdate'])
+    # print(df.dtypes)
+    #encapulate result into dict
     dtypes_dict_before = df.dtypes.apply(lambda x: str(x)).to_dict()
     dtypes_dict_before['before_or_after'] = 'dtypes-before'
+
     infer_and_convert_data_types(df)
 
     print("\nData types after inference:")
-    print(df.dtypes)
+    # print(df.dtypes)
+    #encapulate result into dict
     dtypes_dict_after = df.dtypes.apply(lambda x: str(x)).to_dict()
     dtypes_dict_after['before_or_after'] = 'dtypes-after'
+
+    #construct return data
     return [
         dtypes_dict_before,
         dtypes_dict_after

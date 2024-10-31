@@ -12,6 +12,7 @@ def hello(request):
 @require_POST
 def type_inference(request):
     uploaded_file = request.FILES.get('file')
+    #validation
     if uploaded_file:
         try:
             dtype_results = read_file_and_convert(uploaded_file)

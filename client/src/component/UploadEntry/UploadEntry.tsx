@@ -4,9 +4,13 @@ import TypeConvertApi from "src/apis/type-convert/TypeConvert";
 import './UploadEntry.css'
 import ResultDisplayTable from "../ResultDisplayTable/ResultDisplayTable";
 const UplaodEntry = ()=>{
+    //restore uploaded file
     const [file, setFile] = useState<File | null>(null);
+    //drag event flag
     const [dragActive, setDragActive] = useState(false);
+    //ref for virtual dom controlling
     const fileInputRef = useRef<HTMLInputElement | null>(null);
+    //return data from backend
     const [dataResult, setDataResult] = useState<ApiResponse | null>(null)
         // Handle file selection from input
         const handleFileSelect = (event:React.ChangeEvent<HTMLInputElement>) => {
@@ -48,9 +52,11 @@ const UplaodEntry = ()=>{
                 alert('wrong file type! Only receive .csv or .xlsx')
             }
         };
+        //handle choose file button click
         const handleButtonClick = () => {
             fileInputRef?.current?.click();
         };
+        //handle upload event
         const handleUpload = async()=>{
             const response = await TypeConvertApi(file)
             setDataResult(response)    
@@ -82,7 +88,7 @@ const UplaodEntry = ()=>{
         </div>
 
         <button className="upload-button" onClick={handleUpload}>Upload & Convert</button>
-
+    
         <ResultDisplayTable dataResult={dataResult}/>
         </>
     )
