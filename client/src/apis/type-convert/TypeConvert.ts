@@ -1,6 +1,6 @@
 import axiosApi from './../../axios/app'
-import { AxiosResponse } from 'axios';
-const TypeConvertApi = async(file:File | null):Promise<AxiosResponse | null>=>{
+import { ApiResponse } from 'src/type/ApiResponse';
+const TypeConvertApi = async(file:File | null):Promise<ApiResponse | null>=>{
 
     if (!file) {
         alert("Please select a file first!");

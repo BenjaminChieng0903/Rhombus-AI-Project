@@ -91,12 +91,14 @@ def read_file_and_convert(file):
     print(df.dtypes)
     print(df['Birthdate'])
     dtypes_dict_before = df.dtypes.apply(lambda x: str(x)).to_dict()
+    dtypes_dict_before['before_or_after'] = 'dtypes-before'
     infer_and_convert_data_types(df)
 
     print("\nData types after inference:")
     print(df.dtypes)
     dtypes_dict_after = df.dtypes.apply(lambda x: str(x)).to_dict()
-    return {
-        'dtypes-before':dtypes_dict_before,
-        'dtypes-after':dtypes_dict_after
-    }
+    dtypes_dict_after['before_or_after'] = 'dtypes-after'
+    return [
+        dtypes_dict_before,
+        dtypes_dict_after
+    ]
