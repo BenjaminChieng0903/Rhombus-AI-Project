@@ -1,0 +1,6 @@
+.tb-style{
+    max-width: 100%;
+    overflow: auto;
+    text-align: center;
+    border: 1px solid black;
+}
