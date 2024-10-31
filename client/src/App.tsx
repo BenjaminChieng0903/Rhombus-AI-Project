@@ -1,6 +1,6 @@
 import './App.css';
 import { Route, Routes } from "react-router-dom";
-import FileUpload from './routes/fileupload/FileUpload';
+import FileUpload from './pages/fileupload/FileUpload';
 function App() {
   return (
       <Routes>

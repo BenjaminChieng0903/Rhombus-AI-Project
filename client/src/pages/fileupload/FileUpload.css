@@ -46,3 +46,18 @@ input{
     background-color: deepskyblue;
     border-radius: 5px;
 }
+
+.upload-button:active{
+    opacity: 0.8;
+}
+.upload-button:hover{
+    cursor: pointer;
+    opacity: 0.8;
+}
+
+.tb-style{
+    max-width: 100%;
+    overflow: auto;
+    text-align: center;
+    border: 1px solid black;
+}

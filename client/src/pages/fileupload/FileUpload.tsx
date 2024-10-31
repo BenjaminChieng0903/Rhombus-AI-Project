@@ -1,11 +1,16 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import './FileUpload.css'
 import TypeConvertApi from "src/apis/type-convert/TypeConvert";
+import { ApiResponse } from "src/type/ApiResponse";
 const FileUpload = ()=>{
     const [file, setFile] = useState<File | null>(null);
     const [dragActive, setDragActive] = useState(false);
     const fileInputRef = useRef<HTMLInputElement | null>(null);
+    const [dataResult, setDataResult] = useState<ApiResponse | null>(null)
 
+    useEffect(()=>{
+        console.log(dataResult)
+    },[dataResult])
     // Handle file selection from input
     const handleFileSelect = (event:React.ChangeEvent<HTMLInputElement>) => {
         const files = event.target.files;
@@ -49,6 +54,12 @@ const FileUpload = ()=>{
     const handleButtonClick = () => {
         fileInputRef?.current?.click();
     };
+    const handleUpload = async()=>{
+        const response = await TypeConvertApi(file)
+        setDataResult(response)    
+    }
+
+
     return(
         <div className="container">
         <h2>Type Converter</h2>
@@ -73,7 +84,29 @@ const FileUpload = ()=>{
             <p>Or drag and drop a file here</p>
             {file && <p>Selected file: {file.name}</p>}
         </div>
-        <button className="upload-button" onClick={()=>TypeConvertApi(file)}>Upload & Convert</button>
+
+        <button className="upload-button" onClick={handleUpload}>Upload & Convert</button>
+
+        <table className="tb-style">
+        <thead>
+            
+        <tr>
+           {dataResult && Object.keys(dataResult[0]).map((item, index)=>( 
+                <th key={index}>{item}</th>      
+            ))}
+        </tr>
+        </thead>
+        <tbody>
+        {dataResult && dataResult.map((item, index) => (
+        <tr key={index}>
+        {Object.keys(item).map((key) => {
+          return(
+          )
+        })}
+      </tr>
+    ))}
+  </tbody>        
+        </table>
     </div>
     );
 };
