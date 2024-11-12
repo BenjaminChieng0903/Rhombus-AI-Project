@@ -4,7 +4,7 @@
 
 - [Intro](#Intro)
 - [Project Structure](#project-structure)
-- [Setup & Installation](#installation)
+- [Setup & Installation](#setup--installation)
 - [Usage](#usage)
   
 ## Intro
